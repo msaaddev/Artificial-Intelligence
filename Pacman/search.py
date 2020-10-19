@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+
 
 class SearchProblem:
     """
@@ -70,7 +71,8 @@ def tinyMazeSearch(problem):
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
+    return [s, s, w, s, w, w, s, w]
+
 
 def depthFirstSearch(problem):
     """
@@ -89,15 +91,18 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
+
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
+
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -106,10 +111,65 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
+
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
+
+def mediumClassicSearch(problem):
+    from game import Directions
+    w = Directions.WEST
+    return [w, w]
+
+
+def mediumMazeSearch(problem):
+    from game import Directions
+    w = Directions.WEST
+    e = Directions.EAST
+    n = Directions.NORTH
+    s = Directions.SOUTH
+    return [w, w, w, w, w, w, w, w, w,
+            s, s, e, e, s, s, s, w, w,
+            w, n, w, w, w, w, s, s, s,
+            e, e, e, e, e, e, e, s, s,
+            s, s, s, s, s, w, w, w, w,
+            w, w, w, w, w, w, w, w, w,
+            w, w, w, w, s, w, w, w, w,
+            w, w, w, w, w]
+
+
+def bigMazeSearch(problem):
+    from game import Directions
+    w = Directions.WEST
+    e = Directions.EAST
+    n = Directions.NORTH
+    s = Directions.SOUTH
+    return [n, n, w, w, w, w, n, n, w,
+            w, s, s, w, w, w, w, w, w,
+            w, w, w, w, w, w, w, w, n,
+            n, e, e, n, n, w, w, n, n,
+            n, n, n, n, e, e, e, e, e,
+            e, s, s, e, e, n, n, e, e,
+            e, e, n, n, e, e, s, s, e,
+            e, n, n, n, n, n, n, e, e,
+            e, e, n, n, n, n, n, n, n,
+            n, n, n, w, w, s, s, w, w,
+            w, w, s, s, s, s, s, s, w,
+            w, s, s, s, s, w, w, n, n,
+            w, w, w, w, w, w, w, w, w,
+            w, w, w, n, n, e, e, n, n,
+            n, n, n, n, e, e, e, e, e,
+            e, n, n, n, n, n, n, n, n,
+            w, w, w, w, w, w, s, s, w,
+            w, w, w, s, s, s, s, e, e,
+            s, s, w, w, w, w, w, w, w,
+            w, w, w, s, s, s, s, s, s,
+            s, s, s, s, e, e, s, s, s,
+            s, w, w, s, s, s, s, e, e,
+            s, s, w, w, s, s, s, s, w,
+            w, s, s]
 
 
 # Abbreviations
