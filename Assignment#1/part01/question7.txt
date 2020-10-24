@@ -1,0 +1,4 @@
+Output is as follows:
+
+john smith
+jan 1 1999

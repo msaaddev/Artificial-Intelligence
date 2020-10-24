@@ -1,0 +1,8 @@
+Ouput is as follows:
+
+phone_no: 51231
+!
+!one
+!onetwo
+!onetwothree
+!onetwothreeone
