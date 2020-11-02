@@ -74,22 +74,62 @@ def tinyMazeSearch(problem):
     return [s, s, w, s, w, w, s, w]
 
 
+def DFS(problem):
+    """
+    Challenge #1
+
+    Reasons why the pacman is getting stuck:
+        It is because there comes a point where when the getSucessor function is called, the first successor in the successor array is the path to the previous state where the pacman is coming from. So it moves down. And at that stage, when the pacman goes down and the getSucessor function is called again, the the first successor is the above path. This process repeats again and again.
+
+        The problem lies in children = problem.getSuccessors(currentState)
+     """
+
+    """ Challenge #2 """
+    # util.raiseNotDefined()
+    currentState = problem.getStartState()
+    actions = []
+    maxIterations = 20
+    prevState = ""
+    while(maxIterations >= 0):
+        children = problem.getSuccessors(currentState)
+        if (prevState == "West" and getActionFromTriplet(children[0]) == "East") or (prevState == "South" and getActionFromTriplet(children[0]) == "North") or (prevState == "East" and getActionFromTriplet(children[0]) == "West") or (prevState == "North" and getActionFromTriplet(children[0]) == "South"):
+            actions.append(getActionFromTriplet(children[1]))
+            prevState = getActionFromTriplet(children[1])
+            firstChild = children[1]
+        else:
+            actions.append(getActionFromTriplet(children[0]))
+            prevState = getActionFromTriplet(children[0])
+            firstChild = children[0]
+        firstChildState = firstChild[0]
+        currentState = firstChildState
+        maxIterations = maxIterations - 1
+    return actions
+
+
 def depthFirstSearch(problem):
-    """
-    Search the deepest nodes in the search tree first.
+    frontier = util.Stack()
+    frontier.push((problem.getStartState(), []))
+    explored = [problem.getStartState()]
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    while frontier.isEmpty() == 0:
+        state, actions = frontier.pop()
+        explored.append(state)
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
-    print "Start:", problem.getStartState()
-    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-    print "Start's successors:", problem.getSuccessors(problem.getStartState())
-    """
-    "*** YOUR CODE HERE ***"
+        for newState in problem.getSuccessors(state):
+            newStateValue = newState[0]
+            newStateDirection = newState[1]
+            if newStateValue not in explored:
+                if problem.isGoalState(newStateValue):
+                    return actions + [newStateDirection]
+                else:
+                    frontier.push(
+                        (newStateValue, actions + [newStateDirection]))
+                    explored.append(newStateValue)
     util.raiseNotDefined()
+
+
+def getActionFromTriplet(triple):
+    return triple[1]
 
 
 def breadthFirstSearch(problem):
