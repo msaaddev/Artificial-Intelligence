@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+import searchAgents
 
 
 class SearchProblem:
@@ -133,14 +134,61 @@ def getActionFromTriplet(triple):
 
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
+    frontier = util.Queue()
+    frontier.push((problem.getStartState(), []))
+    explored = [problem.getStartState()]
+
+    while frontier.isEmpty() == 0:
+        state, actions = frontier.pop()
+        explored.append(state)
+
+        for newState in problem.getSuccessors(state):
+            newStateValue = newState[0]
+            newStateDirection = newState[1]
+            if newStateValue not in explored:
+                if problem.isGoalState(newStateValue):
+                    return actions + [newStateDirection]
+                else:
+                    frontier.push(
+                        (newStateValue, actions + [newStateDirection]))
+                    explored.append(newStateValue)
     util.raiseNotDefined()
 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+
+    Frontier = util.PriorityQueue()
+    explorered = []
+    Frontier.push((problem.getStartState(), []), 0)
+    explorered.append(problem.getStartState())
+
+    while Frontier.isEmpty() == 0:
+        state, actions = Frontier.pop()
+
+        if problem.isGoalState(state):
+            return actions
+
+        if state not in explorered:
+            explorered.append(state)
+
+        for next in problem.getSuccessors(state):
+            nextState = next[0]
+            nextDirection = next[1]
+            if nextState not in explorered:
+                for index, (path, cost, i) in enumerate(Frontier.heap):
+                    if i[0] == (nextState, actions + [nextDirection])[0]:
+                        if path <= problem.getCostOfActions(actions+[nextDirection]):
+                            break
+                        del Frontier.heap[index]
+                        Frontier.heap.append(
+                            (problem.getCostOfActions(actions+[nextDirection]), cost, (nextState, actions + [nextDirection])))
+                        heapq.heapify(Frontier.heap)
+                        break
+                else:
+                    Frontier.push(
+                        (nextState, actions + [nextDirection]), problem.getCostOfActions(actions+[nextDirection]))
     util.raiseNotDefined()
 
 
@@ -155,8 +203,42 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
 
+    """Search the node of least total cost first."""
+    "*** YOUR CODE HERE ***"
+
+    Frontier = util.PriorityQueue()
+    explorered = []
+    Frontier.push((problem.getStartState(), []), 0)
+    explorered.append(problem.getStartState())
+
+    while Frontier.isEmpty() == 0:
+        state, actions = Frontier.pop()
+
+        if problem.isGoalState(state):
+            return actions
+
+        if state not in explorered:
+            explorered.append(state)
+
+        for next in problem.getSuccessors(state):
+            nextState = next[0]
+            nextDirection = next[1]
+            if nextState not in explorered:
+                for index, (path, cost, i) in enumerate(Frontier.heap):
+                    if i[0] == (nextState, actions + [nextDirection])[0]:
+                        if path <= problem.getCostOfActions(actions+[nextDirection])+heuristic(nextState, problem):
+                            break
+                        del Frontier.heap[index]
+                        Frontier.heap.append(
+                            (problem.getCostOfActions(actions+[nextDirection])+heuristic(nextState, problem), cost, (nextState, actions + [nextDirection])))
+                        heapq.heapify(Frontier.heap)
+                        break
+                else:
+                    Frontier.push(
+                        (nextState, actions + [nextDirection]), problem.getCostOfActions(actions+[nextDirection])+heuristic(nextState, problem))
+    util.raiseNotDefined()
 
 def mediumClassicSearch(problem):
     from game import Directions
